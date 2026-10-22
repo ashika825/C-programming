@@ -1,0 +1,119 @@
+#include <stdio.h>
+
+struct Hotel
+{
+    int room;
+    char name[50];
+    int days;
+    int booked;
+};
+
+int main()
+{
+    struct Hotel h[10];
+    int choice, room, i;
+    float bill;
+
+    for (i = 0; i < 10; i++)
+        h[i].booked = 0;
+
+    do
+    {
+        printf("\n--- HOTEL MANAGEMENT SYSTEM ---\n");
+        printf("1. Book Room\n");
+        printf("2. View Booking\n");
+        printf("3. Checkout and Bill\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1:
+                printf("Enter room number (1-10): ");
+                scanf("%d", &room);
+
+                if (room < 1 || room > 10)
+                {
+                    printf("Invalid room number!\n");
+                    break;
+                }
+
+                if (h[room - 1].booked == 1)
+                {
+                    printf("Room already booked!\n");
+                }
+                else
+                {
+                    h[room - 1].room = room;
+
+                    printf("Enter customer name: ");
+                    scanf(" %49[^\n]", h[room - 1].name);
+
+                    printf("Enter number of days: ");
+                    scanf("%d", &h[room - 1].days);
+
+                    if (h[room - 1].days <= 0)
+                    {
+                        printf("Invalid number of days!\n");
+                        break;
+                    }
+
+                    h[room - 1].booked = 1;
+                    printf("Room booked successfully!\n");
+                }
+                break;
+
+            case 2:
+                printf("\n--- BOOKING DETAILS ---\n");
+
+                for (i = 0; i < 10; i++)
+                {
+                    if (h[i].booked == 1)
+                    {
+                        printf("\nRoom Number: %d\n", h[i].room);
+                        printf("Customer Name: %s\n", h[i].name);
+                        printf("Days: %d\n", h[i].days);
+                    }
+                }
+                break;
+
+            case 3:
+                printf("Enter room number: ");
+                scanf("%d", &room);
+
+                if (room < 1 || room > 10)
+                {
+                    printf("Invalid room number!\n");
+                    break;
+                }
+
+                if (h[room - 1].booked == 1)
+                {
+                    bill = h[room - 1].days * 1000;
+
+                    printf("\nCustomer: %s\n",
+                           h[room - 1].name);
+                    printf("Total Bill: Rs. %.2f\n", bill);
+
+                    h[room - 1].booked = 0;
+                    printf("Checkout successful!\n");
+                }
+                else
+                {
+                    printf("Room is not booked!\n");
+                }
+                break;
+
+            case 4:
+                printf("Thank you! Visit again.\n");
+                break;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
